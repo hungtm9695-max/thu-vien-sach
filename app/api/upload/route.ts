@@ -11,6 +11,11 @@ export async function POST(req: NextRequest) {
     const genre = (formData.get("genre") as string) || "Chưa phân loại"
     const year = parseInt(formData.get("year") as string) || new Date().getFullYear()
     const description = (formData.get("description") as string) || ""
+    const password = formData.get("password") as string
+
+    if (password !== process.env.ADMIN_PASSWORD) {
+      return NextResponse.json({ error: "Sai mật khẩu" }, { status: 401 })
+    }
 
     if (!file || !title || !author) {
       return NextResponse.json({ error: "Thiếu thông tin bắt buộc" }, { status: 400 })

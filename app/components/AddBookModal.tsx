@@ -147,6 +147,20 @@ export default function AddBookModal() {
                 />
               </div>
 
+              {/* Mật khẩu */}
+              <div>
+                <label className="block text-sm font-medium text-stone-700 mb-1">
+                  Mật khẩu <span className="text-red-500">*</span>
+                </label>
+                <input
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="Nhập mật khẩu để upload..."
+                  className="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300"
+                />
+              </div>
+
               {error && <p className="text-red-500 text-sm">{error}</p>}
 
               <div className="flex gap-3 pt-1">
