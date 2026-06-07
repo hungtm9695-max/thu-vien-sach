@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "title": "Đắc Nhân Tâm",
+    "author": "Dale Carnegie",
+    "description": "Cuốn sách kinh điển về nghệ thuật giao tiếp và ứng xử với mọi người, giúp bạn xây dựng mối quan hệ tốt đẹp và thành công trong cuộc sống.",
+    "cover": "",
+    "pdfPath": "/books/dac-nhan-tam.pdf",
+    "genre": "Kỹ năng sống",
+    "year": 1936
+  },
+  {
+    "id": "2",
+    "title": "Nhà Giả Kim",
+    "author": "Paulo Coelho",
+    "description": "Câu chuyện về hành trình tìm kiếm kho báu của chàng chăn cừu Santiago, một tác phẩm truyền cảm hứng về việc theo đuổi ước mơ.",
+    "cover": "",
+    "pdfPath": "/books/nha-gia-kim.pdf",
+    "genre": "Tiểu thuyết",
+    "year": 1988
+  },
+  {
+    "id": "3",
+    "title": "Atomic Habits",
+    "author": "James Clear",
+    "description": "Hướng dẫn thực tế về cách xây dựng thói quen tốt và loại bỏ thói quen xấu thông qua những thay đổi nhỏ nhưng mang lại kết quả lớn.",
+    "cover": "",
+    "pdfPath": "/books/atomic-habits.pdf",
+    "genre": "Phát triển bản thân",
+    "year": 2018
+  },
+  {
+    "id": "4",
+    "title": "Lý Lịch Khoa Học - GS. Phạm Mạnh Hùng",
+    "author": "GS. TS. Phạm Mạnh Hùng",
+    "description": "Lý lịch khoa học của GS. TS. Phạm Mạnh Hùng, Trưởng Bộ môn Tim mạch, Đại học Y Hà Nội. Ghi nhận các công trình nghiên cứu, bài báo khoa học và hướng dẫn nghiên cứu sinh trong lĩnh vực Nội Tim mạch.",
+    "cover": "",
+    "pdfPath": "/books/llkh-pham-manh-hung.pdf",
+    "genre": "Y học",
+    "year": 2026
+  },
+  {
+    "id": "5",
+    "title": "t",
+    "author": "t",
+    "genre": "t",
+    "year": 2026,
+    "description": "t",
+    "cover": "",
+    "pdfPath": "/books/dang_ki_de_tai_1.pdf"
+  }
+]
