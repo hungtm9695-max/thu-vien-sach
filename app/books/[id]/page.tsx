@@ -3,13 +3,15 @@ import Link from "next/link"
 import { getBookById } from "@/lib/books"
 import PDFReaderWrapper from "@/app/components/PDFReaderWrapper"
 
+export const dynamic = "force-dynamic"
+
 export default async function BookPage({
   params,
 }: {
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const book = getBookById(id)
+  const book = await getBookById(id)
 
   if (!book) notFound()
 
@@ -37,7 +39,7 @@ export default async function BookPage({
       </div>
 
       <div className="bg-stone-100 rounded-xl p-4">
-        <PDFReaderWrapper pdfPath={book.pdfPath} />
+        <PDFReaderWrapper pdfPath={book.pdf_url} />
       </div>
     </div>
   )

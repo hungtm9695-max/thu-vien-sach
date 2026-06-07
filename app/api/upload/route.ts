@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import fs from "fs"
-import path from "path"
-import { getBooks, saveBooks, type Book } from "@/lib/books"
+import { supabase } from "@/lib/supabase"
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,9 +8,9 @@ export async function POST(req: NextRequest) {
     const file = formData.get("file") as File | null
     const title = formData.get("title") as string
     const author = formData.get("author") as string
-    const genre = formData.get("genre") as string
+    const genre = (formData.get("genre") as string) || "Chưa phân loại"
     const year = parseInt(formData.get("year") as string) || new Date().getFullYear()
-    const description = formData.get("description") as string
+    const description = (formData.get("description") as string) || ""
 
     if (!file || !title || !author) {
       return NextResponse.json({ error: "Thiếu thông tin bắt buộc" }, { status: 400 })
@@ -22,37 +20,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Chỉ chấp nhận file PDF" }, { status: 400 })
     }
 
-    const filename =
-      file.name
-        .replace(/\s+/g, "-")
-        .replace(/[^a-zA-Z0-9\-_.]/g, "")
-        .toLowerCase() || `book-${Date.now()}.pdf`
-
-    const booksDir = path.join(process.cwd(), "public", "books")
-    if (!fs.existsSync(booksDir)) fs.mkdirSync(booksDir, { recursive: true })
-
-    const filePath = path.join(booksDir, filename)
+    const filename = `${Date.now()}-${file.name.replace(/\s+/g, "-")}`
     const buffer = Buffer.from(await file.arrayBuffer())
-    fs.writeFileSync(filePath, buffer)
 
-    const books = getBooks()
-    const newId = (Math.max(0, ...books.map((b) => parseInt(b.id) || 0)) + 1).toString()
+    const { error: uploadError } = await supabase.storage
+      .from("books")
+      .upload(filename, buffer, { contentType: "application/pdf", upsert: false })
 
-    const newBook: Book = {
-      id: newId,
-      title,
-      author,
-      genre: genre || "Chưa phân loại",
-      year,
-      description: description || "",
-      cover: "",
-      pdfPath: `/books/${filename}`,
+    if (uploadError) {
+      return NextResponse.json({ error: "Lỗi upload file: " + uploadError.message }, { status: 500 })
     }
 
-    books.push(newBook)
-    saveBooks(books)
+    const { data: urlData } = supabase.storage.from("books").getPublicUrl(filename)
 
-    return NextResponse.json({ success: true, book: newBook })
+    const { data: book, error: dbError } = await supabase
+      .from("books")
+      .insert({ title, author, genre, year, description, cover: "", pdf_url: urlData.publicUrl })
+      .select()
+      .single()
+
+    if (dbError) {
+      return NextResponse.json({ error: "Lỗi lưu dữ liệu: " + dbError.message }, { status: 500 })
+    }
+
+    return NextResponse.json({ success: true, book })
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: "Lỗi server" }, { status: 500 })

@@ -6,7 +6,6 @@ export default function BookCard({ book }: { book: Book }) {
     <Link href={`/books/${book.id}`} className="group block">
       <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-amber-100 group-hover:-translate-y-1">
         <div className="h-56 bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center overflow-hidden">
-          {/* Placeholder cover nếu chưa có ảnh */}
           <div className="text-6xl select-none">📖</div>
         </div>
         <div className="p-4">

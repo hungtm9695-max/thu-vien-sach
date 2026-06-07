@@ -1,5 +1,4 @@
-import fs from "fs"
-import path from "path"
+import { supabase } from "./supabase"
 
 export type Book = {
   id: string
@@ -7,22 +6,31 @@ export type Book = {
   author: string
   description: string
   cover: string
-  pdfPath: string
+  pdf_url: string
   genre: string
   year: number
 }
 
-const dataPath = path.join(process.cwd(), "data", "books.json")
+export async function getBooks(): Promise<Book[]> {
+  const { data, error } = await supabase
+    .from("books")
+    .select("*")
+    .order("created_at", { ascending: false })
 
-export function getBooks(): Book[] {
-  const raw = fs.readFileSync(dataPath, "utf-8")
-  return JSON.parse(raw)
+  if (error) {
+    console.error("Lỗi tải danh sách sách:", error.message)
+    return []
+  }
+  return data ?? []
 }
 
-export function getBookById(id: string): Book | undefined {
-  return getBooks().find((b) => b.id === id)
-}
+export async function getBookById(id: string): Promise<Book | null> {
+  const { data, error } = await supabase
+    .from("books")
+    .select("*")
+    .eq("id", id)
+    .single()
 
-export function saveBooks(books: Book[]): void {
-  fs.writeFileSync(dataPath, JSON.stringify(books, null, 2), "utf-8")
+  if (error) return null
+  return data
 }
